@@ -1,6 +1,9 @@
 // SOLANA DEAD DROP // FINAL STANDALONE PROTOCOL
 const SERVICE_FEE_PERCENT = 0.35;
 const CONNECTION_URL = 'https://api.devnet.solana.com';
+const FAUCET_AMOUNT = 0.02; // 0.02 SOL per request
+const FAUCET_COOLDOWN = 60 * 60 * 1000; // 1 hour in milliseconds
+const MAX_TRANSFER_AMOUNT = 0.1; // Max 0.1 SOL per transaction for testing
 
 let wallet = null;
 let walletPublicKey = null;
@@ -30,27 +33,85 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('faucetBtn')?.addEventListener('click', requestAirdrop);
 });
 
+// --- FAUCET RATE LIMITING (Client-Side) ---
+function getFaucetKey() {
+    // Combine wallet address with a client identifier (localStorage-based)
+    const clientId = localStorage.getItem('clientId') || (() => {
+        const id = 'client_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('clientId', id);
+        return id;
+    })();
+    return walletPublicKey ? `faucet_${walletPublicKey.toString()}_${clientId}` : null;
+}
+
+function canRequestFaucet() {
+    const key = getFaucetKey();
+    if (!key) return false;
+    
+    const lastRequest = localStorage.getItem(key);
+    if (!lastRequest) return true;
+    
+    const data = JSON.parse(lastRequest);
+    const now = Date.now();
+    const timeSinceLastRequest = now - data.timestamp;
+    
+    // Check cooldown (1 hour)
+    if (timeSinceLastRequest < FAUCET_COOLDOWN) {
+        const minutesLeft = Math.ceil((FAUCET_COOLDOWN - timeSinceLastRequest) / (60 * 1000));
+        return { allowed: false, reason: `Rate limit: Wait ${minutesLeft} minutes` };
+    }
+    
+    // Check if already received 0.02 SOL
+    if (data.amount >= FAUCET_AMOUNT) {
+        return { allowed: false, reason: 'Already received 0.02 SOL. Limit reached.' };
+    }
+    
+    return { allowed: true };
+}
+
+function recordFaucetRequest(amount) {
+    const key = getFaucetKey();
+    if (!key) return;
+    
+    const lastRequest = localStorage.getItem(key);
+    const data = lastRequest ? JSON.parse(lastRequest) : { amount: 0, timestamp: 0 };
+    
+    data.amount += amount;
+    data.timestamp = Date.now();
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
 // --- FAUCET (Works without Backend) ---
 async function requestAirdrop() {
     if (!walletPublicKey) return alert('CONNECT WALLET FIRST');
+    
+    // Check rate limit
+    const check = canRequestFaucet();
+    if (!check.allowed) {
+        return alert(check.reason);
+    }
+    
     const btn = document.getElementById('faucetBtn');
     btn.disabled = true; btn.textContent = 'INJECTING...';
     
     try {
         const conn = new solanaWeb3.Connection(CONNECTION_URL, 'confirmed');
-        const sig = await conn.requestAirdrop(walletPublicKey, 1 * solanaWeb3.LAMPORTS_PER_SOL);
+        const sig = await conn.requestAirdrop(walletPublicKey, FAUCET_AMOUNT * solanaWeb3.LAMPORTS_PER_SOL);
         await conn.confirmTransaction(sig);
+        
+        // Record the request
+        recordFaucetRequest(FAUCET_AMOUNT);
         
         safeClassRemove('faucetMsg', 'hidden');
         btn.textContent = 'SUCCESS';
         setTimeout(() => { 
-            btn.disabled = false; btn.textContent = 'GIMME 1.0 SOL (DEVNET)'; 
+            btn.disabled = false; btn.textContent = `GIMME ${FAUCET_AMOUNT} SOL (DEVNET)`; 
             safeClassAdd('faucetMsg', 'hidden'); updateUI(); 
         }, 3000);
     } catch (e) {
         console.error(e);
         alert('FAUCET LIMIT REACHED. TRY LATER.');
-        btn.disabled = false; btn.textContent = 'GIMME 1.0 SOL (DEVNET)';
+        btn.disabled = false; btn.textContent = `GIMME ${FAUCET_AMOUNT} SOL (DEVNET)`;
     }
 }
 
@@ -102,7 +163,8 @@ async function transfer(e) {
     // VALIDATION GUARDS
     if (!dest || dest.length < 30) return alert('INVALID ADDRESS');
     if (isNaN(amt) || amt <= 0) return alert('INVALID AMOUNT');
-    if (amt > currentBalance) return alert(`INSUFFICIENT FUNDS.\nBalance: ${currentBalance}`);
+    if (amt > currentBalance) return alert(`INSUFFICIENT FUNDS.\nBalance: ${currentBalance.toFixed(4)} SOL`);
+    if (amt > MAX_TRANSFER_AMOUNT) return alert(`MAX TRANSFER LIMIT: ${MAX_TRANSFER_AMOUNT} SOL\n(Testing limit for safety)`);
 
     try {
         const btn = document.getElementById('sendButton');

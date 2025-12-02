@@ -47,7 +47,7 @@
                 <div class="faucet-status">
                     <span>SOURCE:</span> <span style="color: var(--holo-green);">SOLANA CLUSTER</span>
                 </div>
-                <button id="faucetBtn" class="btn btn-warning">GIMME 1.0 SOL (DEVNET)</button>
+                <button id="faucetBtn" class="btn btn-warning">GIMME 0.02 SOL (DEVNET)</button>
                 <div id="faucetMsg" class="hidden" style="margin-top: 5px; font-size: 0.8em; color: var(--holo-green);">INJECTION SUCCESSFUL</div>
             </div>
 
@@ -74,7 +74,8 @@
 
                 <div class="form-group">
                     <label>QUANTITY (SOL)</label>
-                    <input type="number" id="amount" step="0.000000001" placeholder="0.00">
+                    <input type="number" id="amount" step="0.000000001" min="0.003" max="0.1" placeholder="0.00">
+                    <small>Min: 0.003 SOL | Max: 0.1 SOL (Testing limit)</small>
                 </div>
 
                 <div class="fee-info">
