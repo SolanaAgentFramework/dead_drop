@@ -110,8 +110,11 @@
                 </div>
                 <div class="fee-info" style="margin: 20px 0; padding: 10px; background: rgba(255,0,255,0.1); border: 1px solid var(--neon-pink);">
                     <p style="color: var(--neon-pink); font-size: 0.8em;">NETWORK FEE ESTIMATE:</p>
-                    <p style="color: #fff; font-size: 1.1em; margin-top: 5px;">SERVICE FEE (0.35%): <span id="serviceFee">0.00 SOL</span></p>
-                    <p style="color: #fff; font-size: 1.2em; margin-top: 5px;">TOTAL REQUIRED: <span id="totalAmount">0.00 SOL</span></p>
+                    <span id="serviceFee">0.00 SOL</span>
+                    
+                    <div style="margin-top: 5px; font-size: 0.9em; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px;">
+                        TOTAL: <span id="totalAmount" style="color: #fff;">0.00 SOL</span>
+                    </div>
                 </div>
                 <button type="submit" id="sendButton" class="btn btn-success" disabled>INITIATE TRANSFER</button>
             </form>
@@ -146,15 +149,18 @@
             <!-- Privacy Animation Section -->
             <div id="animationCard" class="hidden" style="margin-top: 30px; text-align: center;">
                 <div id="stage1" class="stage-text" style="color: var(--neon-blue);">ROUTING SHARDS...</div>
-                <div id="progressBar" style="width: 0%; height: 2px; background: var(--neon-green); margin-top: 15px; box-shadow: 0 0 10px var(--neon-green);"></div>
-                <div id="txHash" style="margin-top: 20px; color: var(--neon-blue); word-break: break-all; font-family: monospace; font-size: 0.9em;"></div>
                 
-                <!-- Additional animation stages (preserved for app.js compatibility) -->
-                <div class="hidden" id="stage2"></div>
-                <div class="hidden" id="stage3"></div>
-                <div class="hidden" id="stage4"></div>
-                <div class="hidden" id="stage5"></div>
-                <div class="hidden" id="stage6"></div>
+                <div id="stage2" class="stage-text hidden">RELAY ACTIVE...</div>
+                <div id="stage3" class="stage-text hidden">ENCRYPTING...</div>
+                <div id="stage4" class="stage-text hidden">MIXING...</div>
+                <div id="stage5" class="stage-text hidden">VERIFYING...</div>
+                <div id="stage6" class="stage-text hidden" style="color: var(--neon-green);">TRANSFER COMPLETE</div>
+                
+                <div id="progressBar" style="width: 0%; height: 2px; background: var(--neon-green); margin-top: 15px; box-shadow: 0 0 10px var(--neon-green);"></div>
+                
+                <div id="txHash" style="margin-top: 15px; color: var(--neon-blue); font-size: 0.8em; word-break: break-all;"></div>
+                
+                <!-- Additional stages for compatibility -->
                 <div class="hidden" id="stage7"></div>
                 <div class="hidden" id="stage8"></div>
             </div>
