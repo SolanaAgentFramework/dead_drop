@@ -147,14 +147,24 @@ function handleDisconnect() {
 }
 
 async function disconnect() {
-    if (!wallet) return;
     try {
-        await wallet.disconnect();
-        handleDisconnect();
+        // Try to disconnect from Phantom if wallet is connected
+        if (wallet && wallet.isConnected) {
+            await wallet.disconnect();
+        }
     } catch (e) {
-        console.error(e);
-        // Force disconnect even if wallet.disconnect() fails
+        console.error('Disconnect error:', e);
+    } finally {
+        // Always clear local state regardless of Phantom disconnect result
+        walletPublicKey = null;
+        currentBalance = 0;
+        wallet = null;
         handleDisconnect();
+        
+        // Clear any stored connection state
+        if (window.solana && window.solana.isPhantom) {
+            wallet = window.solana;
+        }
     }
 }
 
