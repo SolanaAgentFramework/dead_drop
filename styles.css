@@ -156,3 +156,20 @@ input:focus { outline: none; background: rgba(0,0,0,0.9); border-color: var(--ho
     from { opacity: 1; }
     to { opacity: 0.3; }
 }
+
+/* --- CURSOR FIX: TARGETING COMPUTER --- */
+
+/* Changes the cursor globally to a crosshair */
+body {
+    cursor: crosshair; 
+}
+
+/* Changes the cursor over the main application area for a strong visual cue */
+.hud-center {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="%2300f3ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-target"><circle cx="15" cy="15" r="10"/><circle cx="15" cy="15" r="3"/><line x1="25" y1="15" x2="30" y2="15"/><line x1="0" y1="15" x2="5" y2="15"/><line x1="15" y1="0" x2="15" y2="5"/><line x1="15" y1="25" x2="15" y2="30"/></svg>') 15 15, crosshair;
+}
+
+/* Ensure the button still shows a pointer for usability */
+.btn {
+    cursor: pointer !important; 
+}
