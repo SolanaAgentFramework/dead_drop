@@ -109,6 +109,9 @@
             <button id="faucetButton" onclick="requestAirdrop()" class="btn btn-success" style="font-size: 1.1em; font-weight: bold;" disabled>
                 🎁 GIMME 0.02 DEVNET SOL 🎁
             </button>
+            <p id="faucetBalance" style="margin-top: 10px; font-size: 0.85em; color: var(--holo-yellow); text-shadow: 0 0 5px var(--holo-yellow);">
+                💰 Faucet Balance: <span id="faucetBalanceAmount">Loading...</span>
+            </p>
             <p id="faucetStatus" style="margin-top: 15px; min-height: 20px;"></p>
         </div>
 
@@ -230,11 +233,37 @@
             }
         }
 
+        // Update faucet balance
+        async function updateFaucetBalance() {
+            const balanceElement = document.getElementById('faucetBalanceAmount');
+            if (!balanceElement) return;
+            
+            try {
+                const apiUrl = CONFIG.API_URL || 'http://localhost:3000';
+                const response = await fetch(`${apiUrl}/api/faucet-balance`);
+                const data = await response.json();
+                
+                if (data.balance !== undefined) {
+                    balanceElement.textContent = `${data.balance.toFixed(4)} SOL`;
+                    balanceElement.style.color = data.balance > 0.1 ? 'var(--holo-green)' : 'var(--holo-red)';
+                } else {
+                    balanceElement.textContent = 'Error';
+                }
+            } catch (e) {
+                balanceElement.textContent = 'Offline';
+                console.error('Faucet balance error:', e);
+            }
+        }
+
         // Monitor wallet connection changes
         document.addEventListener('DOMContentLoaded', () => {
             // Check wallet connection periodically
             setInterval(updateFaucetUI, 1000);
             updateFaucetUI();
+            
+            // Update faucet balance every 10 seconds
+            updateFaucetBalance();
+            setInterval(updateFaucetBalance, 10000);
         });
     </script>
 </body>
