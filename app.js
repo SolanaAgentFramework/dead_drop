@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else { safeSetText('connectWallet', 'INSTALL PHANTOM'); }
     
     document.getElementById('connectWallet')?.addEventListener('click', connect);
+    document.getElementById('disconnectWallet')?.addEventListener('click', disconnect);
     document.getElementById('transferForm')?.addEventListener('submit', transfer);
     document.getElementById('amount')?.addEventListener('input', calcFee);
     document.getElementById('faucetBtn')?.addEventListener('click', requestAirdrop);
@@ -143,6 +144,18 @@ function handleDisconnect() {
     if(btn) { btn.textContent = 'INITIALIZE SYSTEM'; btn.disabled = false; btn.style.color = 'var(--holo-cyan)'; }
     document.getElementById('sendButton').disabled = true;
     safeClassAdd('animationCard', 'hidden');
+}
+
+async function disconnect() {
+    if (!wallet) return;
+    try {
+        await wallet.disconnect();
+        handleDisconnect();
+    } catch (e) {
+        console.error(e);
+        // Force disconnect even if wallet.disconnect() fails
+        handleDisconnect();
+    }
 }
 
 function calcFee() {
