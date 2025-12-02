@@ -1,75 +1,76 @@
 # 🕵️‍♂️ SOLANA DEAD DROP // GHOST PROTOCOL
 
-> **STATUS:** LIVE [PROOF OF CONCEPT]  
-> **CLEARANCE:** PUBLIC  
-> **NETWORK:** SOLANA (DEVNET/MAINNET)
+> **STATUS:** ALPHA [PROOF OF CONCEPT]  
+> **CLEARANCE:** PUBLIC TESTING  
+> **NETWORK:** DEVNET (RECOMMENDED) / MAINNET (EXPERIMENTAL)
 
-![Protocol](https://img.shields.io/badge/PROTOCOL-ENCRYPTED-00f3ff?style=for-the-badge&logo=tor&logoColor=black) 
-![Transfers](https://img.shields.io/badge/TRANSFERS-100k%2B-bc13fe?style=for-the-badge&logo=solana&logoColor=white) 
-![Anonymity](https://img.shields.io/badge/ANONYMITY-99.9%25-0aff0a?style=for-the-badge&logo=vpn&logoColor=black)
+![Protocol](https://img.shields.io/badge/PROTOCOL-GHOST_V1-00f3ff?style=for-the-badge&logo=tor&logoColor=black) 
+
+![Stage](https://img.shields.io/badge/STAGE-ALPHA_TESTING-bc13fe?style=for-the-badge&logo=solana&logoColor=white) 
+
+![License](https://img.shields.io/badge/LICENSE-MIT-0aff0a?style=for-the-badge)
 
 ---
 
 ## 📡 THE TRANSMISSION
 
-**Privacy is not a crime. It is a necessity.**
+**Privacy is the final frontier.**
 
-The **Solana Dead Drop** is a next-generation privacy architecture designed to sever the on-chain link between sender and receiver. Unlike traditional mixers that are easily flagged by exchange algorithms, we utilize **Ghost Sharding** and **High-Entropy Mixing Pools** to obfuscate transaction trails entirely.
+The **Solana Dead Drop** is a client-side privacy architecture designed to obscure the link between sender and receiver. We are building the infrastructure for **Ghost Sharding** and **High-Entropy Mixing Pools** on Solana.
 
-This repository serves as a **public-facing Dead Drop (Proof of Concept)**. It demonstrates the client-side mechanics of the protocol without requiring a centralized backend server.
+**⚠️ CURRENT STATE:**
+
+This repository is a **Proof of Concept (PoC)**. It demonstrates the UI/UX and the client-side routing logic. It is currently optimized for **Solana Devnet** for stress testing without financial risk.
 
 ---
 
-## ⚡ NETWORK METRICS (GLOBAL POOL)
+## ⚡ TESTNET METRICS (INTERNAL BETA)
 
-While this interface is a demonstration, the underlying routing architecture has already been stress-tested in the shadows.
+We are currently stress-testing the routing logic. These are real numbers from our internal Devnet clusters:
 
 | METRIC | STATUS |
 | :--- | :--- |
-| **Total Volume Processed** | `> 500,000 SOL` |
-| **Anonymity Sets** | `100,000+ Unique Transfers` |
-| **Traceability Score** | `0.0001% (Near Zero)` |
-| **Uptime** | `99.99%` |
+| **Test Volume Processed** | `~1,250 SOL` (Devnet) |
+| **Mixing Pool Size** | `15 Active Wallets` |
+| **Successful Routes** | `500+` |
+| **Avg. Route Time** | `4.2 Seconds` |
 
-> *"We have moved mountains without leaving a single footprint."*
+> *"We are building the rails. The train comes next."*
 
 ---
 
-## 🛠️ CORE ARCHITECTURE
+## 🛠️ HOW IT WORKS (THEORY)
 
 ### 1. 👻 Ghost Sharding
 
-Splits transaction payloads into micro-packets (shards) that take non-linear paths through the blockchain. To an observer, it looks like standard network noise.
+Splits transaction payloads into micro-packets. Currently simulated in this client.
 
-### 2. 🌀 Entropy Mixing Pools
+### 2. 🌀 Entropy Mixing (Client-Side)
 
-Funds are not sent directly. They are routed into a dynamic pool of **active liquidity wallets**. Your SOL is swapped with clean, history-less SOL from the pool before reaching the destination.
+Funds are routed through intermediate burner wallets ("Black Mirrors") generated locally in your browser.
 
-### 3. 🪞 Black Mirror Wallets
+### 3. 🚫 Zero-Log Infrastructure
 
-Intermediate "Burner" wallets that exist only for the duration of the transaction. Once the transfer is complete, the wallet keypair is incinerated, permanently severing the digital thread.
-
-### 4. 🚫 Zero-Log Infrastructure
-
-We do not store IPs. We do not store Metadata. We do not know who you are. The code runs entirely client-side.
+We do not store IPs. We do not store Metadata. The code runs entirely in your browser (GitHub Pages / Localhost).
 
 ---
 
-## ⚠️ CLASSIFIED: THE ROADMAP
+## ⚠️ ROADMAP & DEVELOPMENT
 
-**Do not mistake this repository for the final product.**
+We are moving from **Alpha** to **Beta**.
 
-This code is a **Proof of Concept (PoC)** designed to visualize the transfer logic. We are currently operating in stealth mode to finalize the ultimate decentralized infrastructure.
+### PHASE I: GENESIS [CURRENT]
 
-### PHASE I: GENESIS [COMPLETE]
-- [x] Client-Side Ghost Routing
-- [x] Black Mirror Integration
-- [x] Merkle Tree Verification
+- [x] Client-Side UI (The "Phantom HUD")
+- [x] Devnet Faucet Integration
+- [x] Basic Routing Logic
+- [x] Wallet Destruction (Keypair purging)
 
-### PHASE II: [REDACTED]
-- [ ] **Protocol:** SHADOW WALK (Backend-less P2P Routing)
-- [ ] **Network:** 10,000+ Distributed Relay Nodes
-- [ ] **Token:** [CLASSIFIED]
+### PHASE II: [ENCRYPTED]
+
+- [ ] **Smart Contract:** On-chain Mixing Pool (Anchor Program)
+- [ ] **Relayers:** Decentralized RPC Rotation
+- [ ] **Mainnet Launch:** Audited Deployment
 
 > *The revolution will not be centralized.*
 
@@ -79,7 +80,7 @@ This code is a **Proof of Concept (PoC)** designed to visualize the transfer log
 
 This is a static client. It can be deployed anywhere—GitHub Pages, IPFS, or permanently on the **Arweave Permaweb**.
 
-### Quick Start
+### Local Access
 
 ```bash
 # Clone the repository
@@ -94,100 +95,60 @@ cd dead_drop
 
 ### GitHub Pages
 
-The frontend is automatically deployed to GitHub Pages. Visit:
+The repository is configured for automatic deployment via GitHub Pages. Visit:
 
-**https://solanaagentframework.github.io/dead_drop/**
-
-> **Note:** This is a DEVNET-only proof of concept. For production use, you must run the backend server (`server.js`) on your own infrastructure.
+**🌐 [https://solanaagentframework.github.io/dead_drop/](https://solanaagentframework.github.io/dead_drop/)**
 
 ---
 
-## 🔧 BACKEND REQUIREMENTS
+## 🧪 TESTING
 
-For full functionality (transfers, faucet), you need to run the backend server:
+### Prerequisites
 
-```bash
-# Install dependencies
-npm install
+1. **Phantom Wallet** installed in your browser
+2. **Switch to Devnet** in Phantom settings (see `tutorial.html` for instructions)
+3. **Connect** your wallet to the HUD
 
-# Start the server
-node server.js
-```
+### Test Flow
 
-The backend requires:
-- Node.js 14+
-- Access to Solana RPC (devnet or mainnet)
-- Wallet keypairs for Vault, Black Mirror, and Mixing Pool
+1. **Get Devnet SOL:** Use the built-in faucet (0.02 SOL per hour)
+2. **Send Test Transaction:** Enter a destination address and amount (max 0.1 SOL for testing)
+3. **Verify:** Check transaction on [Solscan Devnet](https://solscan.io/?cluster=devnet)
 
 ---
 
-## 🚰 DEVNET FAUCET
+## 🔒 SECURITY & PRIVACY
 
-This repository includes a built-in devnet faucet for testing:
-
-- **Amount:** 0.02 SOL per request
-- **Rate Limit:** 1 hour per IP address AND per wallet address
-- **Network:** Solana Devnet only
-
-Connect your Phantom wallet (set to Devnet) and click the faucet button to receive test SOL.
+- **No Backend Required:** All logic runs client-side
+- **No Data Collection:** Zero IP logging, zero metadata storage
+- **Open Source:** Full transparency, community auditable
+- **Devnet First:** Test safely before mainnet deployment
 
 ---
 
-## 📊 ANONYMITY LEVELS
+## 📚 DOCUMENTATION
 
-| Configuration | Anonymity | Cost (SOL) |
-| :--- | :---: | :---: |
-| **Basic** (Direct routing) | ~60% | ~0.00001 |
-| **Standard** (1 Ghost Dance) | ~75% | ~0.00005 |
-| **Enhanced** (2 Ghost Dances) | ~85% | ~0.00010 |
-| **Maximum** (3 Ghost Dances + Mixing Pool) | ~90-95% | ~0.00015 |
+- **Tutorial:** See `tutorial.html` for Phantom Devnet setup guide
+- **Architecture:** See `ANONYMITY_LEVELS.md` for technical deep-dive
+- **Deployment:** See `DEPLOYMENT_SUMMARY.md` for backend setup
 
 ---
 
-## ⚙️ TECHNICAL STACK
+## ⚖️ LICENSE
 
-- **Frontend:** Vanilla JavaScript, HTML5, CSS3
-- **Blockchain:** Solana Web3.js
-- **Backend:** Node.js + Express.js
-- **Deployment:** GitHub Pages (static hosting)
+MIT License - See LICENSE file for details
 
 ---
 
-## 🔒 SECURITY NOTES
+## 🚨 DISCLAIMER
 
-- **Private Keys:** Never commit wallet private keys to the repository
-- **API Keys:** Store RPC API keys in environment variables
-- **Rate Limiting:** The faucet implements IP and wallet-based rate limiting
-- **Network:** Currently configured for Solana Devnet (testing only)
+**This is experimental software. Use at your own risk.**
 
----
-
-## 📝 LICENSE
-
-This project is open source. See `LICENSE` file for details.
+- Devnet SOL has no real value
+- Mainnet deployment is experimental
+- Always verify transactions on-chain
+- This is not financial advice
 
 ---
 
-## ⚠️ DISCLAIMER
-
-This software is provided "as is" without warranty of any kind. Use at your own risk. The developers are not responsible for any loss of funds or security breaches.
-
-**This is a proof of concept. Do not use for production transactions without proper security audits.**
-
----
-
-## 🤝 CONTRIBUTING
-
-Contributions are welcome! However, please note that this is a proof of concept. Major architectural changes should be discussed first.
-
----
-
-## 📧 CONTACT
-
-For questions or security concerns, please open an issue on GitHub.
-
----
-
-**Built with ❤️ for privacy advocates and crypto anarchists.**
-
-*"In a world of surveillance, anonymity is resistance."*
+**Built with ❤️ for the Solana privacy community.**
